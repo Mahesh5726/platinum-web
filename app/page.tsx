@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 const RootPage = () => {
@@ -13,8 +14,12 @@ const RootPage = () => {
           </p>
         </div>
         <div className="flex flex-row items-center gap-2">
-          <Button>Sign Up</Button>
-          <Button variant="secondary">Log In</Button>
+          <Button asChild>
+            <Link href="/sign-up">Sign Up</Link>
+          </Button>
+          <Button variant="secondary" asChild>
+            <Link href="/log-in">Log In</Link>
+          </Button>
         </div>
       </div>
     </div>
