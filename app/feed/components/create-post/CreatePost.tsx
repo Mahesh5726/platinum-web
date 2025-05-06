@@ -7,10 +7,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  DialogFooter,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
+import { Textarea } from "@/components/ui/textarea";
 import { serverUrl } from "@/lib/environment";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
@@ -39,10 +39,11 @@ export const CreatePost = () => {
     },
     onSuccess: () => {
       setIsOpen(false);
+      reset();
     },
   });
 
-  const { Field, Subscribe, handleSubmit } = useForm({
+  const { Field, Subscribe, handleSubmit, reset } = useForm({
     defaultValues: {
       text: "",
     },
@@ -90,13 +91,13 @@ export const CreatePost = () => {
           >
             {(field) => {
               return (
-                <Input
+                <Textarea
                   id={field.name}
                   name={field.name}
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
-                  type="text"
                   placeholder="Type your post here ..."
+                  className="resize-none h-32"
                 />
               );
             }}
@@ -109,10 +110,15 @@ export const CreatePost = () => {
               state.isPristine,
             ]}
           >
-            {([canSubmit, isSubmitting]) => {
+            {([canSubmit, isSubmitting, isPristine]) => {
               return (
                 <Button
-                  disabled={!canSubmit || isSubmitting}
+                  disabled={
+                    !canSubmit ||
+                    isSubmitting ||
+                    isPristine ||
+                    createPostMutation.isPending
+                  }
                   type="submit"
                 >
                   {createPostMutation.isPending && <Spinner />}
