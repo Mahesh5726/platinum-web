@@ -3,6 +3,7 @@ import { PropsWithChildren } from "react";
 import { Inter } from "next/font/google";
 import { Metadata } from "next";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import TanstackQueryClientProvider from "@/components/providers/tanstack-query-client-provider";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -13,12 +14,17 @@ export const metadata: Metadata = {
   description: "Top Tech News",
 };
 
-const RootLayout = ({children}: PropsWithChildren) => {
+const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <TanstackQueryClientProvider>{children}</TanstackQueryClientProvider>
         </ThemeProvider>
       </body>
     </html>
